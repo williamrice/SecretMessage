@@ -1,0 +1,40 @@
+services:
+  # ASP.NET Web API service
+  webapi:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0 # Use the appropriate .NET version
+    container_name: aspnet_webapi
+    build:
+      context: ./webapi # This should point to your Web API project folder
+      dockerfile: Dockerfile # Make sure there's a Dockerfile in this folder
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=secretDB;Username=postgres;Password=postgres
+    ports:
+      - "7294:8080" # Expose Web API on port 7294
+    depends_on:
+      - database
+    networks:
+      - appnetwork
+
+  # PostgreSQL database service
+  database:
+    image: postgres:17 # Use the appropriate PostgreSQL version
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: secretDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432" # Expose Postgres on port 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persist database data
+    networks:
+      - appnetwork
+
+networks:
+  appnetwork:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
