@@ -20,7 +20,18 @@ public class SecretController : ControllerBase
     [HttpGet]
     public ActionResult<List<Secret>> Get()
     {
-        var secrets = _repository.GetSecretsAsync().Result;
-        return Ok(secrets);
+
+        return NotFound();
+    }
+
+    [HttpGet("{uuid}")]
+    public ActionResult<Secret> Get(string uuid)
+    {
+        var secret = _repository.GetSecretByUUIDAsync(uuid);
+        if (secret == null)
+        {
+            return NotFound();
+        }
+        return Ok(secret);
     }
 }

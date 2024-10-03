@@ -15,8 +15,12 @@ public class SecretRepository : ISecretRepository
         _context = context;
     }
 
-    public async Task<List<Secret>> GetSecretsAsync()
+    public async Task<Secret?> GetSecretByUUIDAsync(string uuid)
     {
-        return await _context.Secrets.ToListAsync();
+        var secret = await _context.Secrets.FirstOrDefaultAsync(x => x.UUID == uuid);
+
+        return secret;
     }
+
+
 }

@@ -8,6 +8,6 @@ namespace webapi.Interfaces
 {
     public interface ISecretRepository
     {
-        public Task<List<Secret>> GetSecretsAsync();
+        public Task<Secret?> GetSecretByUUIDAsync(string uuid);
     }
 }
