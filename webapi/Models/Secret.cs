@@ -11,6 +11,6 @@ public class Secret
 
     public string Title { get; set; } = string.Empty;
 
-    public string IsViewed { get; set; } = string.Empty;
+    public bool IsViewed { get; set; } = false;
 
 }
