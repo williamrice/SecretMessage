@@ -1,6 +1,7 @@
 
 
 using Microsoft.AspNetCore.Mvc;
+using webapi.Dto;
 using webapi.Interfaces;
 using webapi.Models;
 
@@ -25,13 +26,25 @@ public class SecretController : ControllerBase
     }
 
     [HttpGet("{uuid}")]
-    public ActionResult<Secret> Get(string uuid)
+    public async Task<ActionResult<SecretDTO>> Get(string uuid)
     {
-        var secret = _repository.GetSecretByUUIDAsync(uuid);
+        var secret = await _repository.GetSecretByUUID(uuid);
         if (secret == null)
         {
             return NotFound();
         }
         return Ok(secret);
+    }
+
+    [HttpPost]
+    public ActionResult<SecretDTO> Post([FromBody] SecretDTO secret)
+    {
+
+        var result = _repository.AddSecretAsync(secret);
+        if (result == null)
+        {
+            return NotFound();
+        }
+        return Ok(result);
     }
 }
