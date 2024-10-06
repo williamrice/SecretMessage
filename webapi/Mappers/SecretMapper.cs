@@ -16,6 +16,7 @@ namespace webapi.Mappers
             {
                 Title = secret.Title,
                 Message = secret.Message,
+                UUID = secret.UUID
             };
         }
     }

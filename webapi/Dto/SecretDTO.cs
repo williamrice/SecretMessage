@@ -10,5 +10,7 @@ namespace webapi.Dto
         public string Title { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
 
+        public string UUID { get; set; } = string.Empty;
+
     }
 }
