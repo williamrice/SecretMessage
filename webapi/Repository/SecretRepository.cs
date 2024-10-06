@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using webapi.Data;
 using webapi.Dto;

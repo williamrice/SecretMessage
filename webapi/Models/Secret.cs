@@ -1,4 +1,3 @@
-
 namespace webapi.Models;
 
 public class Secret
