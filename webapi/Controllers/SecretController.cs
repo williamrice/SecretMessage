@@ -35,7 +35,7 @@ public class SecretController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<SecretDTO> Post([FromBody] SecretDTO secret)
+    public ActionResult<CreateSecretDTO> Post([FromBody] CreateSecretDTO secret)
     {
 
         var result = _repository.AddSecretAsync(secret);

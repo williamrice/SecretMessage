@@ -6,5 +6,7 @@ namespace webapi.Interfaces
     public interface ISecretMapper
     {
         public SecretDTO Map(Secret secret);
+
+        public CreateSecretDTO createMap(Secret secret);
     }
 }

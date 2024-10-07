@@ -16,7 +16,7 @@ public class SecretRepository : ISecretRepository
         _mapper = mapper;
     }
 
-    public async Task<SecretDTO?> AddSecretAsync(SecretDTO secret)
+    public async Task<SecretDTO?> AddSecretAsync(CreateSecretDTO secret)
     {
         if (secret == null)
         {
