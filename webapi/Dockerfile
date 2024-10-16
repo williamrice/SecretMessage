@@ -14,6 +14,8 @@ COPY . .
 WORKDIR "/src/"
 RUN dotnet build "webapi.csproj" -c Release -o /app/build
 RUN dotnet ef migrations add CoolifyCreate
+ENV ConnectionStrings__DefaultConnection=Host=localhost;Port=8875;Database=secretDB;Username=postgres;Password=postgres
+RUN echo "Connection String in build: $ConnectionStrings__DefaultConnection"
 RUN dotnet ef database update
 
 FROM build AS publish
