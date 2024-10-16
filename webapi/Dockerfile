@@ -13,7 +13,7 @@ RUN dotnet restore "./webapi.csproj"
 COPY . .
 WORKDIR "/src/"
 RUN dotnet build "webapi.csproj" -c Release -o /app/build
-RUN dotnet ef migrations add InitialCreate
+RUN dotnet ef migrations add CoolifyCreate
 RUN dotnet ef database update
 
 FROM build AS publish
