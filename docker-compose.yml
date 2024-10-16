@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile # Make sure there's a Dockerfile in this folder
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=secretDB;Username=postgres;Password=postgres
+      - ConnectionStrings__DefaultConnection=Host=database;Port=8875;Database=secretDB;Username=postgres;Password=postgres
     ports:
       - "7294:8080" # Expose Web API on port 7294
     depends_on:
@@ -25,7 +25,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432" # Expose Postgres on port 5432
+      - "8875:5432" # Expose Postgres on port 5432
     volumes:
       - postgres_data:/var/lib/postgresql/data # Persist database data
     networks:
