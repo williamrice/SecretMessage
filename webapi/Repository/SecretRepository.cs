@@ -29,7 +29,6 @@ public class SecretRepository : ISecretRepository
             Message = secret.Message,
         };
 
-
         var result = await _context.Secrets.AddAsync(secretToAdd);
         await _context.SaveChangesAsync();
         return _mapper.Map(result.Entity);

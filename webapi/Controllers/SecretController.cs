@@ -35,10 +35,10 @@ public class SecretController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<CreateSecretDTO> Post([FromBody] CreateSecretDTO secret)
+    public async Task<ActionResult<CreateSecretDTO>> Post([FromBody] CreateSecretDTO secret)
     {
 
-        var result = _repository.AddSecretAsync(secret);
+        var result = await _repository.AddSecretAsync(secret);
         if (result == null)
         {
             return NotFound();
