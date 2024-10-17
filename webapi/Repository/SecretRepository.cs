@@ -10,10 +10,14 @@ public class SecretRepository : ISecretRepository
 {
     private readonly ApplicationDbContext _context;
     private readonly ISecretMapper _mapper;
-    public SecretRepository(ApplicationDbContext context, ISecretMapper mapper)
+
+    private readonly IEncryptionService _encryptionService;
+    public SecretRepository(ApplicationDbContext context, ISecretMapper mapper, IEncryptionService encryptionService)
     {
         _context = context;
         _mapper = mapper;
+
+        _encryptionService = encryptionService;
     }
 
     public async Task<SecretDTO?> AddSecretAsync(CreateSecretDTO secret)
@@ -23,10 +27,13 @@ public class SecretRepository : ISecretRepository
             return null;
         }
 
+        var encryptedTitle = _encryptionService.Encrypt(secret.Title);
+        var encryptedMessage = _encryptionService.Encrypt(secret.Message);
+
         var secretToAdd = new Secret
         {
-            Title = secret.Title,
-            Message = secret.Message,
+            Title = encryptedTitle,
+            Message = encryptedMessage,
         };
 
         var result = await _context.Secrets.AddAsync(secretToAdd);
@@ -46,6 +53,9 @@ public class SecretRepository : ISecretRepository
         // delete the secret from the DB as we only allow one time access
         _context.Secrets.Remove(secret);
         await _context.SaveChangesAsync();
+
+        secret.Title = _encryptionService.Decrypt(secret.Title);
+        secret.Message = _encryptionService.Decrypt(secret.Message);
 
         return _mapper.Map(secret);
     }

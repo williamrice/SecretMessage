@@ -3,6 +3,7 @@ using webapi.Data;
 using webapi.Interfaces;
 using webapi.Mappers;
 using webapi.Repository;
+using webapi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ISecretRepository, SecretRepository>();
 builder.Services.AddScoped<ISecretMapper, SecretMapper>();
+
+builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
