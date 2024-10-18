@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Dto;
 using webapi.Interfaces;
@@ -11,9 +12,15 @@ namespace webapi.Controllers;
 public class SecretController : ControllerBase
 {
     private readonly ISecretRepository _repository;
-    public SecretController(ISecretRepository repository)
+    private readonly IUrlGeneratorService _urlGeneratorService;
+
+    private readonly ILogger<SecretController> _logger;
+    public SecretController(ISecretRepository repository, IUrlGeneratorService urlGeneratorService, ILogger<SecretController> logger)
     {
         _repository = repository;
+        _urlGeneratorService = urlGeneratorService;
+
+        _logger = logger;
     }
 
     [HttpGet]
@@ -35,14 +42,25 @@ public class SecretController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<CreateSecretDTO>> Post([FromBody] CreateSecretDTO secret)
+    public async Task<ActionResult<SecretPostReturnDTO?>> Post([FromBody] CreateSecretDTO secret)
     {
+        _logger.LogInformation("Secret: {secret}", secret);
 
         var result = await _repository.AddSecretAsync(secret);
         if (result == null)
         {
-            return NotFound();
+            return BadRequest();
         }
-        return Ok(result);
+        var baseUrl = Request.Headers.Origin.ToString();
+
+        if (String.IsNullOrEmpty(baseUrl))
+        {
+            return BadRequest();
+        }
+
+        var url = _urlGeneratorService.GenerateUrl(result.UUID, baseUrl);
+
+        var secretPostReturnDTO = new SecretPostReturnDTO { Url = url };
+        return Ok(secretPostReturnDTO);
     }
 }
