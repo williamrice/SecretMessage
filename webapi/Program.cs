@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000", "https://williamarice.com");
+                          policy.WithOrigins("http://localhost:3000", "https://williamarice.com").WithHeaders("Content-Type", "Authorization", "X-Requested-With", "Accept").AllowAnyMethod();
                       });
 
 });
