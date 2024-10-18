@@ -19,7 +19,9 @@ namespace webapi.Mappers
         {
             return new SecretDTO
             {
-                UUID = secret.UUID
+                UUID = secret.UUID,
+                Title = secret.Title,
+                Message = secret.Message
             };
         }
     }
