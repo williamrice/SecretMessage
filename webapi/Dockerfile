@@ -6,8 +6,6 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="$PATH:/root/.dotnet/tools"
 COPY ["webapi.csproj", "./"]
 RUN dotnet restore "./webapi.csproj"
 COPY . .
